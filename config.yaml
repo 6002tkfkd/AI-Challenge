@@ -1,0 +1,51 @@
+# ========== 기본 설정 ==========
+data_dir: "/home/work/HAN_K/2025-csu-sw-ai-challenge_copy/archive"
+output_dir: "/home/work/HAN_K/baseline_CBAM3/output10"
+img_size: 192
+num_workers: 8
+epochs: 150
+batch_size: 8
+lr: 0.001
+amp: true
+threshold_search: true
+
+early_stopping:
+  enabled: true
+  monitor: "val_f1"   # "val_f1" 또는 "val_iou"
+  mode: "max"         # val_f1이면 보통 max
+  patience: 15        # 10~15 권장
+  min_delta: 0.0005   # 이 이상 좋아져야 개선으로 간주
+  warmup_epochs: 100    # 초반은 카운트 제외
+
+aux_init: [0.7, 0.5, 0.5]
+aux_late: [1.0, 0.3, 0.3]
+in_channels: 1
+num_classes: 1
+base_channels: 30
+
+cbam_ratio: 8
+cbam_kernel: 7
+
+# ========== augmentation 설정 ==========
+augmentation:
+  enabled: true          # 전체 on/off
+  preset: "overfit_guard"        # light / default / strong 중 선택
+
+  flip_h: 0.6            # 수평 반전 확률
+  flip_v: 0.22            # 수직 반전 확률
+  rotate: 10              # 회전 ±도
+  translate: 0.08        # 평행이동 비율
+  scale_min: 0.88         # 스케일 최소
+  scale_max: 1.15         # 스케일 최대
+  shear: 8               # 기울이기 정도
+  brightness: 0.23        # 밝기 변화 ±10%
+  contrast: 0.22          # 대비 변화 ±10%
+  blur_p: 0.3           # 블러 확률
+  blur_sigma: [0.2, 1.0] # 블러 강도 범위
+  noise_p: 0.25          # 노이즈 확률
+  noise_std: 0.03        # 노이즈 표준편차
+  # persp_p: 0.30
+  # persp_distort: 0.15
+  # cutout_p: 0.25
+  # cutout_holes: 2
+  # cutout_max: 0.12
